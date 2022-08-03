@@ -92,15 +92,18 @@ def gauss3P(x, Y):
     Index1[I <= STEP-1] = Index3[I <= STEP-1]
     Index3[I >= STEP-1] = Index1[I >= STEP-1]
 
-    x1 = np.array(Ic - STEP) + 1
+    x1 = Ic - STEP + 1
     x2 = Ic + 1
     x3 = Ic + STEP + 1
+    
+    print(x)
     if x != list(range(len(x))):
+        print("beep")
         # convert from order index to focus value
-        x1 = np.array([[x[x1[i,j]] for j in range(M)] for i in range(N)], dtype='d')
-        x2 = np.array([[x[x2[i,j]] for j in range(M)] for i in range(N)], dtype='d')
-        x3 = np.array([[x[x3[i,j]] for j in range(M)] for i in range(N)], dtype='d')
-
+        x1 = np.array([[x[x1[i,j]-1]+1 for j in range(M)] for i in range(N)], dtype='d')
+        x2 = np.array([[x[x2[i,j]-1]+1 for j in range(M)] for i in range(N)], dtype='d')
+        x3 = np.array([[x[x3[i,j]-1]+1 for j in range(M)] for i in range(N)], dtype='d')
+    
     # Index through the image stack and take the elementwise log
     M_IDX, N_IDX = np.indices(Y.shape[1:])
     y1 = np.array(Y[Index1, M_IDX, N_IDX], dtype = 'D')
