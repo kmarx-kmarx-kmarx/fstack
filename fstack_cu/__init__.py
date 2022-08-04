@@ -50,10 +50,11 @@ def fstack_cu(paths, focus, WSize=9, alpha=0.2, sth=13):
     phi = 0.5*(1+cp.tanh(alpha*(S-sth)))/alpha
     phi1 = cupyx.scipy.ndimage.median_filter(phi, size=3)
     
-    focus_measure = [(0.5 + 0.5*cp.tanh(phi1*(slc-1))).get() for slc in focus_measure]
+    focus_measure = cp.array([(0.5 + 0.5*cp.tanh(phi1*(slc-1))) for slc in focus_measure])
     
     # Sum along slice axis
-    fmn = np.sum(focus_measure,0)
+    fmn = cp.sum(focus_measure,axis=0).get()
+    focus_measure = focus_measure.get()
     
     t4 = time.time()
     print("filter: " + str(t4 - t3))    
